@@ -1,7 +1,13 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.Properties;
 import java.util.Scanner;
+
+import com.mysql.cj.protocol.Resultset;
 
 /**
  * Doctors
@@ -16,11 +22,17 @@ class Insertion_Doctors implements InterfaceInsertion{
     
     @Override
     public void write_in_csv() {
-        try {
-          // using printwritter
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+      Properties connProperties=new Properties();
+      connProperties.put("user","root");
+      connProperties.put("password","Finnbalor$") ; 
+      String URL="jdbc:mysql://localhost:3306/hospital_record_management";
+      Connection con= DriverManager.getConnection(URL,connProperties);
+      String Sql= "select* from Doctors";
+      try (PreparedStatement stmt= con.prepareStatement(Sql)){
+          Resultset rs=(Resultset)stmt.executeQuery(); 
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
     }
 
     @Override
