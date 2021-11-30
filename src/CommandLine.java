@@ -1,9 +1,10 @@
+import java.sql.SQLException;
 import java.util.Scanner;
 
 class CommandLine {
 
     String args;
-    public CommandLine(String args) {
+    public CommandLine(String args) throws SQLException {
         Scanner myOBJScanner= new Scanner(System.in);
         int tno;
         switch (args) {
@@ -36,11 +37,13 @@ class CommandLine {
                     Insertion_Doctors i=new Insertion_Doctors();
                     i.field_inputs();
                     i.write_in_csv();
+                    i.read_csv();
                 }
             }
             default:
                 break;
         }
+        myOBJScanner.close();
     }
     
     
