@@ -13,16 +13,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import javax.print.Doc;
+
 /**
  * Doctors
  */
 class Insertion_Doctors implements InterfaceInsertion{
-    int id;
-    String name;
-    String Spec;
-    String timing;
-    String qualification;
-    int room;
+    private int id;
+    private String name;
+    private String Spec;
+    private String timing;
+    private String qualification;
+    private int room;
     @Override
     public void write_in_csv(){
         try {
@@ -34,6 +36,7 @@ class Insertion_Doctors implements InterfaceInsertion{
             String Qual=this.qualification;
             int Room=this.room;
             String comma=",";
+            printWriter.println();
             printWriter.print(ID);
             printWriter.print(comma);
             printWriter.print(Name);
@@ -72,21 +75,7 @@ class Insertion_Doctors implements InterfaceInsertion{
 
         obj.close();
     }
-
-    @Override
-    public void read_csv() {
-        try {
-            BufferedReader bufferedReader=new BufferedReader(new FileReader("Doctors.csv"));
-            String DocLine;
-            while ((DocLine = bufferedReader.readLine()) !=null) {
-                this.insertion_jdbc();
-            }
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     @Override
     public void insertion_jdbc() {
         String URL="jdbc:mysql://localhost:3306/hospital_record_management";
@@ -111,4 +100,84 @@ class Insertion_Doctors implements InterfaceInsertion{
         }
     }
     
+}
+class Deletion_Doctor implements InterfaceDeletion<Integer>{
+
+    @Override
+    public void Row_Deletion_in_csv() {
+        Scanner obj=new Scanner(System.in);
+        System.out.println("Enter ID to delete the row");
+        int x;
+        x=obj.nextInt();
+        obj.close();
+        try {
+            BufferedReader bufferedReader=new BufferedReader(new FileReader("Doctors.csv"));
+            PrintWriter printWriter=new PrintWriter(new BufferedWriter(new FileWriter("Using_in_deletion.csv",true)));
+            String DocLine;
+            while ((DocLine = bufferedReader.readLine()) !=null) {
+                String array[]=new String[6];
+                array=DocLine.split(",");
+                int req_id;
+                req_id=Integer.valueOf(array[0]);
+                if(req_id!=x){
+                    printWriter.println(DocLine);
+                }
+            }
+            bufferedReader.close();
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try{
+        BufferedReader bufferedReader=new BufferedReader(new FileReader("Using_in_deletion.csv"));
+        String DocLine;
+        int i=0;
+        while((DocLine=bufferedReader.readLine())!=null){
+            if(i==0){
+                PrintWriter printWriter=new PrintWriter(new BufferedWriter(new FileWriter("Doctors.csv")));
+                printWriter.println(DocLine);
+                printWriter.close();
+            }
+            else{
+                PrintWriter printWriter=new PrintWriter(new BufferedWriter(new FileWriter("Doctors.csv",true)));
+                printWriter.println(DocLine);
+                printWriter.close();
+            }
+            i++;
+        }
+        bufferedReader.close();
+       
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try {
+            PrintWriter printWriter=new PrintWriter(new BufferedWriter(new FileWriter("Using_in_deletion.csv")));
+            String useless=" ";
+            printWriter.println(useless);
+            printWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        this.Row_Deletion_in_mysql(x);
+    }
+
+    @Override
+    public void Row_Deletion_in_mysql(Integer s) {
+        String URL="jdbc:mysql://localhost:3306/hospital_record_management";
+        try {
+            Connection con= DriverManager.getConnection(URL, "root", "Finnbalor581$");
+            String Query="delete from doctors where id=?";
+            try(PreparedStatement stmt =con.prepareStatement(Query)) {
+                stmt.setInt(1, s);
+            } catch (SQLException e) {
+                //TODO: handle exception
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 }

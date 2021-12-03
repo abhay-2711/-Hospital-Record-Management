@@ -22,8 +22,6 @@ class CommandLine {
                 System.out.println("<I> : Insert a new row");
                 System.out.println();
                 System.out.println("<D> : Delete a row");
-                System.out.println("\t--> <c> : Delete a column ");
-                System.out.println("\t--> <r> : Delete a row");
                 System.out.println();
                 System.out.println("<S> : Searching");
                 System.out.println("\t--> <n> : By name");
@@ -34,10 +32,43 @@ class CommandLine {
                 System.out.println("Enter the number of table :");
                 tno=myOBJScanner.nextInt();
                 if(tno==1){
-                    Insertion_Doctors i=new Insertion_Doctors();
-                    i.field_inputs();
-                    i.write_in_csv();
-                    i.read_csv();
+                    Insertion_Doctors i_doctors=new Insertion_Doctors();
+                    i_doctors.field_inputs();
+                    i_doctors.write_in_csv();
+                    i_doctors.insertion_jdbc();
+                }
+                else if(tno==2){
+                    Insertion_Facilities i_Facilities=new Insertion_Facilities();
+                    i_Facilities.field_inputs();
+                    i_Facilities.write_in_csv();
+                    i_Facilities.insertion_jdbc();
+                }
+                else if(tno==3){
+                    Insertion_Laboratories i_lanoratories=new Insertion_Laboratories();
+                    i_lanoratories.field_inputs();
+                    i_lanoratories.write_in_csv();
+                    i_lanoratories.insertion_jdbc();
+                }
+                else if(tno==4){
+                    Insertion_Medicines i_medicines=new Insertion_Medicines();
+                    i_medicines.field_inputs();
+                    i_medicines.write_in_csv();
+                    i_medicines.insertion_jdbc();
+                }
+                else if(tno==5){
+                    Insertion_Patients i_patients=new Insertion_Patients();
+                    i_patients.field_inputs();
+                    i_patients.write_in_csv();
+                    i_patients.insertion_jdbc();
+                }
+            }
+            case "-D" :{
+                System.out.println("Enter the number of table :");
+                tno=myOBJScanner.nextInt();
+                if(tno==1){
+                    Deletion_Doctor d_doctors=new Deletion_Doctor();
+                   d_doctors.Row_Deletion_in_csv();
+
                 }
             }
             default:
