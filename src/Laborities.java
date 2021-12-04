@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -48,7 +49,7 @@ class Insertion_Laboratories implements InterfaceInsertion{
         Scanner obj=new Scanner(System.in);
        
         System.out.println("Facilities in Laboratory");
-        this.facilities=obj.next();
+        this.facilities=obj.nextLine();
         System.out.println("Cost of Facilities");
         this.cost=obj.nextInt();
 
@@ -78,4 +79,31 @@ class Insertion_Laboratories implements InterfaceInsertion{
         }
     }
     
+}
+class Searching_in_Laboratories{
+    public void search_by_name(){
+        Scanner searchingname=new Scanner(System.in);
+        String req_name;;
+        System.out.println("Enter the name of Laboratory facility");
+        req_name=searchingname.nextLine();
+        searchingname.close();
+        String URL="jdbc:mysql://localhost:3306/hospital_record_management";
+        try {
+            Connection con= DriverManager.getConnection(URL, "root", "Finnbalor581$");
+            String Query="Select* from laboratories where Facilities=?";
+            try(PreparedStatement stmt =con.prepareStatement(Query)) {
+                stmt.setString(1, req_name);
+                ResultSet resultSet=stmt.executeQuery();
+                while(resultSet.next()){
+                    System.out.println("Facilities: "+resultSet.getString("Facilities"));
+                    System.out.println("Cost: "+resultSet.getString("Cost"));
+                }
+            } catch (SQLException e) {
+                //TODO: handle exception
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

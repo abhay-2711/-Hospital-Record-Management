@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -52,9 +53,9 @@ class Insertion_Medicines implements InterfaceInsertion{
         Scanner obj=new Scanner(System.in);
         
         System.out.println("Enter Name");
-        this.name=obj.next();
+        this.name=obj.nextLine();
         System.out.println("Enter Company Name");
-        this.company=obj.next();
+        this.company=obj.nextLine();
         System.out.println("Enter Expiry Date");
         this.expiryDate=obj.next();
         System.out.println("Enter Cost");
@@ -87,4 +88,33 @@ class Insertion_Medicines implements InterfaceInsertion{
         }
     }
     
+}
+class Searching_in_medicines{
+    public void Search_by_name(){
+        Scanner searchingname=new Scanner(System.in);
+        String req_name;;
+        System.out.println("Enter the name of Name of medicines");
+        req_name=searchingname.nextLine();
+        searchingname.close();
+        String URL="jdbc:mysql://localhost:3306/hospital_record_management";
+        try {
+            Connection con= DriverManager.getConnection(URL, "root", "Finnbalor581$");
+            String Query="Select* from medicines where Name=?";
+            try(PreparedStatement stmt =con.prepareStatement(Query)) {
+                stmt.setString(1, req_name);
+                ResultSet resultSet=stmt.executeQuery();
+                while(resultSet.next()){
+                    System.out.println("Name:  "+resultSet.getString("Name"));
+                    System.out.println("Company: "+resultSet.getString("Company"));
+                    System.out.println("Expiry Date: "+resultSet.getString("Expiry_Date"));
+                    System.out.println("Cost: "+resultSet.getString("Cost"));
+                }
+            } catch (SQLException e) {
+                //TODO: handle exception
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

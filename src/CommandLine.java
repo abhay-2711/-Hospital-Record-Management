@@ -71,6 +71,37 @@ class CommandLine {
 
                 }
             }
+            case "-S" :{
+                System.out.println("Enter the number of table :");
+                tno=myOBJScanner.nextInt();
+                if(tno==1){
+                    Scanner searching=new Scanner(System.in);
+                    String x;
+                    System.out.println("Enter name or id");
+                    x=searching.next();
+                    String id="i";
+                    String name="n";
+                    Searching_in_doctors sd=new Searching_in_doctors();
+                    if(x.equals(id)){
+                        sd.searching_by_id();
+                    }
+                    else{
+                        sd.searching_by_name();
+                    }
+                    searching.close();
+                }
+                else if(tno==2){
+                    System.out.println("Facilities table have only one attribute");
+                }
+                else if(tno==3){
+                    Searching_in_Laboratories sl=new Searching_in_Laboratories();
+                    sl.search_by_name();
+                }
+                else if(tno==4){
+                    Searching_in_medicines sm=new Searching_in_medicines();
+                    sm.Search_by_name();
+                }
+            }
             default:
                 break;
         }

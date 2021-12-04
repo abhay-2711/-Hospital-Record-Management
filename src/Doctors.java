@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -106,8 +107,8 @@ class Deletion_Doctor implements InterfaceDeletion<Integer>{
     @Override
     public void Row_Deletion_in_csv() {
         Scanner obj=new Scanner(System.in);
-        System.out.println("Enter ID to delete the row");
         int x;
+        System.out.println("Enter ID to delete the row");
         x=obj.nextInt();
         obj.close();
         try {
@@ -118,7 +119,7 @@ class Deletion_Doctor implements InterfaceDeletion<Integer>{
                 String array[]=new String[6];
                 array=DocLine.split(",");
                 int req_id;
-                req_id=Integer.valueOf(array[0]);
+                req_id=Integer.parseInt(array[0]);
                 if(req_id!=x){
                     printWriter.println(DocLine);
                 }
@@ -180,4 +181,65 @@ class Deletion_Doctor implements InterfaceDeletion<Integer>{
         }
     }
 
+}
+class Searching_in_doctors {
+
+    public void searching_by_id(){
+        Scanner searchingid=new Scanner(System.in);
+        int x;
+        System.out.println("Enter the id");
+        x=searchingid.nextInt();
+        searchingid.close();
+        String URL="jdbc:mysql://localhost:3306/hospital_record_management";
+        try {
+            Connection con= DriverManager.getConnection(URL, "root", "Finnbalor581$");
+            String Query="Select* from doctors where id=?";
+            try(PreparedStatement stmt =con.prepareStatement(Query)) {
+                stmt.setInt(1, x);
+                ResultSet resultSet=stmt.executeQuery();
+                while(resultSet.next()){
+                    System.out.println("Name: "+resultSet.getString("name"));
+                    System.out.println("Specialist: "+resultSet.getString("Specialist"));
+                    System.out.println("Timing: "+resultSet.getString("Timing"));
+                    System.out.println("Qualification: "+resultSet.getString("Qualification"));
+                    System.out.println("Room no: "+resultSet.getString("Room"));
+                }
+            } catch (SQLException e) {
+                //TODO: handle exception
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    public void searching_by_name(){
+        Scanner searchingid=new Scanner(System.in);
+        String req_name;;
+        System.out.println("Enter the nmae");
+        req_name=searchingid.next();
+        searchingid.close();
+        String URL="jdbc:mysql://localhost:3306/hospital_record_management";
+        try {
+            Connection con= DriverManager.getConnection(URL, "root", "Finnbalor581$");
+            String Query="Select* from doctors where Name=?";
+            try(PreparedStatement stmt =con.prepareStatement(Query)) {
+                stmt.setString(1, req_name);
+                ResultSet resultSet=stmt.executeQuery();
+                while(resultSet.next()){
+                    System.out.println("ID: "+resultSet.getString("id"));
+                    System.out.println("Name: "+resultSet.getString("name"));
+                    System.out.println("Specialist: "+resultSet.getString("Specialist"));
+                    System.out.println("Timing: "+resultSet.getString("Timing"));
+                    System.out.println("Qualification: "+resultSet.getString("Qualification"));
+                    System.out.println("Room no: "+resultSet.getString("Room"));
+                }
+            } catch (SQLException e) {
+                //TODO: handle exception
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
 }
