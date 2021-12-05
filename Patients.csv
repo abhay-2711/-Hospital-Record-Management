@@ -1,6 +1,6 @@
 id,Name,Disease,Gender,Admit_Status,Age
 12,Pankaj,Cancer,Male,y,30
-13,Sumit,Cold,Male,y,23
+13,Sumit,Cold,Male,n,23
 14,Alok,Maleria,Male,y,45
 15,Ravi,Diabetes,Male,y,25
 11,Ashish,Liver,Male,y,44

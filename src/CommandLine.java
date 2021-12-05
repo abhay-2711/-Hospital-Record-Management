@@ -26,6 +26,8 @@ class CommandLine {
                 System.out.println("<S> : Searching");
                 System.out.println("\t--> <n> : By name");
                 System.out.println("\t--> <i> : By Id");
+                System.out.println("<U> :Updation");
+                System.out.println();
                 break;
             }
             case "-I" :{
@@ -61,15 +63,62 @@ class CommandLine {
                     i_patients.write_in_csv();
                     i_patients.insertion_jdbc();
                 }
+                break;
             }
             case "-D" :{
                 System.out.println("Enter the number of table :");
                 tno=myOBJScanner.nextInt();
                 if(tno==1){
+                    Scanner obj=new Scanner(System.in);
+                    int x;
+                    System.out.println("Enter ID to delete the row");
+                    x=obj.nextInt();
+                    obj.close();
                     Deletion_Doctor d_doctors=new Deletion_Doctor();
-                   d_doctors.Row_Deletion_in_csv();
-
+                    d_doctors.Row_Deletion_in_mysql(x);
+                    d_doctors.Row_Deletion_in_csv(x);
                 }
+                else if(tno==2){
+                    Scanner obj=new Scanner(System.in);
+                    String x;
+                    System.out.println("Enter facility name");
+                    x=obj.nextLine();
+                    obj.close();
+                    Deletion_Facilities d_facilities=new Deletion_Facilities();
+                    d_facilities.Row_Deletion_in_mysql(x);
+                    d_facilities.Row_Deletion_in_csv(x);
+                }
+                else if(tno==3){
+                    Scanner obj=new Scanner(System.in);
+                    String x;
+                    System.out.println("Enter facility name of laboratories table");
+                    x=obj.nextLine();
+                    obj.close();
+                    Deletion_Laboratories d_facilities=new Deletion_Laboratories();
+                    d_facilities.Row_Deletion_in_mysql(x);
+                    d_facilities.Row_Deletion_in_csv(x);
+                }
+                else if(tno==4){
+                    Scanner obj=new Scanner(System.in);
+                    String x;
+                    System.out.println("Enter name of medicines");
+                    x=obj.nextLine();
+                    obj.close();
+                    Deletion_Medicines d_facilities=new Deletion_Medicines();
+                    d_facilities.Row_Deletion_in_mysql(x);
+                    d_facilities.Row_Deletion_in_csv(x);
+                }
+                else{
+                    Scanner obj=new Scanner(System.in);
+                    int x;
+                    System.out.println("Enter ID to delete the row");
+                    x=obj.nextInt();
+                    obj.close();
+                    Deletion_Patients d_Patient=new Deletion_Patients();
+                    d_Patient.Row_Deletion_in_mysql(x);
+                    d_Patient.Row_Deletion_in_csv(x);
+                }
+                break;
             }
             case "-S" :{
                 System.out.println("Enter the number of table :");
@@ -81,12 +130,11 @@ class CommandLine {
                     x=searching.next();
                     String id="i";
                     String name="n";
-                    Searching_in_doctors sd=new Searching_in_doctors();
                     if(x.equals(id)){
-                        sd.searching_by_id();
+                       Searching_in_doctors.searching_by_id();
                     }
                     else{
-                        sd.searching_by_name();
+                        Searching_in_doctors.searching_by_name();
                     }
                     searching.close();
                 }
@@ -94,12 +142,62 @@ class CommandLine {
                     System.out.println("Facilities table have only one attribute");
                 }
                 else if(tno==3){
-                    Searching_in_Laboratories sl=new Searching_in_Laboratories();
-                    sl.search_by_name();
+                    Searching_in_Laboratories.search_by_name();
                 }
                 else if(tno==4){
-                    Searching_in_medicines sm=new Searching_in_medicines();
-                    sm.Search_by_name();
+                    Searching_in_medicines.Search_by_name();
+                }
+                else{
+                    Scanner searching=new Scanner(System.in);
+                    String x;
+                    System.out.println("Enter name or id");
+                    x=searching.next();
+                    String id="i";
+                    String name="n";
+                    if(x.equals(id)){
+                        Searching_in_patients.searching_by_id();
+                    }
+                    else{
+                        Searching_in_patients.searching_by_name();
+                    }
+                    searching.close();
+                }
+                break;
+            }
+            case "-U":{
+                System.out.println("Enter the number of table :");
+                tno=myOBJScanner.nextInt();
+                if(tno==1){
+                    Scanner timeScanner=new Scanner(System.in);
+                    System.out.println("Enter ID of doctor");
+                    int x=timeScanner.nextInt();
+                    updation_in_doctors.updating_timing(x);
+                    timeScanner.close();
+
+                }
+                else if(tno==2){
+                    System.out.println("Facilities table has nothing to update");
+                }
+                else if(tno==3){
+                    Scanner nameScanner=new Scanner(System.in);
+                    System.out.println("Enter name of facility in laboratories table");
+                    String x=nameScanner.nextLine();
+                    update_in_laboratories.updating_cost(x);
+                    nameScanner.close();
+                }
+                else if(tno==4){
+                    Scanner nameScanner=new Scanner(System.in);
+                    System.out.println("Enter name of medicines");
+                    String x=nameScanner.nextLine();
+                    update_in_medicines.updating_cost(x);
+                    nameScanner.close();
+                }
+                else{
+                    Scanner idScanner=new Scanner(System.in);
+                    System.out.println("Enter ID of Patients");
+                    int x=idScanner.nextInt();
+                    update_in_patients.updating_admit(x);
+                    idScanner.close();
                 }
             }
             default:

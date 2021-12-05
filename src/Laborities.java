@@ -81,7 +81,7 @@ class Insertion_Laboratories implements InterfaceInsertion{
     
 }
 class Searching_in_Laboratories{
-    public void search_by_name(){
+    public static void search_by_name(){
         Scanner searchingname=new Scanner(System.in);
         String req_name;;
         System.out.println("Enter the name of Laboratory facility");
@@ -106,4 +106,178 @@ class Searching_in_Laboratories{
             e.printStackTrace();
         }
     }
+}
+class update_in_laboratories{
+    public static void updating_cost(String x){
+        Scanner idScanner=new Scanner(System.in);
+        int newcost;
+        System.out.println("Enter new cost of the faclity");
+        newcost=idScanner.nextInt();
+        idScanner.close();
+        try {
+            
+            BufferedReader br=new BufferedReader(new FileReader("Laboratories.csv"));
+            PrintWriter printWriter=new PrintWriter(new FileWriter("Using_in_deletion.csv",true));
+            String DocLine;
+            DocLine = br.readLine();
+            printWriter.print(DocLine);
+            while (DocLine !=null) {
+                DocLine = br.readLine();
+                String array[]=new String[6];
+                if (DocLine!=null){
+                array=DocLine.split(",");
+                }
+                else
+                array[0]="Facilities";
+                String req_facility_name;
+                if(array[0]!="Facilities" && array[0]!=" "){   
+                req_facility_name=array[0];
+                    if(req_facility_name.equals(x)){
+                        printWriter.println();
+                        printWriter.print(DocLine);
+                    } 
+                    else{
+                        printWriter.println();
+                        printWriter.print(req_facility_name);
+                        printWriter.print(",");
+                        printWriter.print(newcost);
+                       
+                    }   
+                }
+            }
+            br.close();
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try{
+        BufferedReader bufferedReader=new BufferedReader(new FileReader("Using_in_deletion.csv"));
+        String DocLine;
+        int i=0;
+        while((DocLine=bufferedReader.readLine())!=null){
+            if(i==0){
+                PrintWriter printWriter=new PrintWriter(new BufferedWriter(new FileWriter("Laboratories.csv")));
+                printWriter.println(DocLine);
+                printWriter.close();
+            }
+            else{
+                PrintWriter printWriter=new PrintWriter(new BufferedWriter(new FileWriter("Laboratories.csv",true)));
+                printWriter.println(DocLine);
+                printWriter.close();
+            }
+            i++;
+        }
+        bufferedReader.close();
+       
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try {
+            PrintWriter printWriter=new PrintWriter(new BufferedWriter(new FileWriter("Using_in_deletion.csv")));
+            String useless=" ";
+            printWriter.println(useless);
+            printWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        String URL="jdbc:mysql://localhost:3306/hospital_record_management";
+        try {
+            Connection con= DriverManager.getConnection(URL, "root", "Finnbalor581$");
+            String Query="update laboratories set Cost=? where Facilities=?";
+            try(PreparedStatement stmt =con.prepareStatement(Query)) {
+                stmt.setInt(1, newcost);
+                stmt.setString(2, x);
+                stmt.executeUpdate();
+                System.out.println("Cost is updated");
+            } catch (SQLException e) {
+                //TODO: handle exception
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+}
+class Deletion_Laboratories implements InterfaceDeletion<String>{
+
+    @Override
+    public void Row_Deletion_in_csv(String x) {
+        try {
+            BufferedReader br=new BufferedReader(new FileReader("Facilities.csv"));
+            PrintWriter printWriter=new PrintWriter(new FileWriter("Using_in_deletion.csv",true));
+            String DocLine;
+            DocLine = br.readLine();
+            printWriter.print(DocLine);
+            while (DocLine !=null) {
+                DocLine = br.readLine();
+                String array[]=new String[6];
+                if (DocLine!=null){
+                array=DocLine.split(",");
+                }
+                else
+                array[0]="Facilities";
+                String req_facility;
+                if(array[0]!="Facilities" && array[0]!=" "){   
+                req_facility=array[0];
+                    if(req_facility.equals(x)){
+                        printWriter.println();
+                        printWriter.print(DocLine);
+                    }    
+                }
+            }
+            br.close();
+            printWriter.close();
+        }
+         catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            FileReader fr = new FileReader("Using_in_deletion.csv");
+            FileWriter fw = new FileWriter("Laboratories.csv");
+            String str = "";
+            int i;
+            while ((i = fr.read()) != -1) {
+                str += (char)i;
+            }
+            fw.write(str);
+            fr.close();
+            fw.close();
+        }
+        catch (IOException e) {
+            System.out.println(
+                "There are some IOException");
+        }
+        try {
+            PrintWriter printWriter=new PrintWriter(new BufferedWriter(new FileWriter("Using_in_deletion.csv")));
+            String useless=" ";
+            printWriter.println(useless);
+            printWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        
+        
+    }
+
+    @Override
+    public void Row_Deletion_in_mysql(String s) {
+        String URL="jdbc:mysql://localhost:3306/hospital_record_management";
+        try {
+            Connection con= DriverManager.getConnection(URL, "root", "Finnbalor581$");
+            String Query="delete from laboratories where Facilities=?";
+            try(PreparedStatement stmt =con.prepareStatement(Query)) {
+                stmt.setString(1,s);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                //TODO: handle exception
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 }

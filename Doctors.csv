@@ -1,14 +1,14 @@
-id,Name,Specialist,Timing,Qualification,Room
 21,Dr. Ghanendra,ENT,5-11AM,"MBBS,MD",17
-32,Dr. Vikram,Physician,10-3AM,"MBBS,MD",45
-17,Dr. Rekha,Surgeon,8-2AM,BDM,8
-33,Dr. Pramod,Artho,10-4PM,"MBBS,MS",40
-11,Dr.Xyz,Surgeon,2-5PM,MBBS,67
 14,Dr.Ashok,Artho,3-8PM,MS,55
-15,Dr.Abc,Surgeon,3-6PM,MBBS,70
-19,Dr.Subham,ENT,3-7PM,MBBS,33
 18,Dr.Akshay,Chemo,2-8PM,MBBS,27
-5,Dr.Seema,Artho,4-9PM,MS,22
-13,Dr.,Sehwaag,2-7PM,MBBS,43
-55,Dr.Abhishek,ENT,6-12AM,MBBS,57
-2,Dr.Shekar,Surgeon,4-9PM,MBBS,8
+X-Ray,800
+CT Scan,1200
+DR Scan,5000
+Blood Bank,5000
+C T Scan,5000
+PAT Scan,5000
+X-Ray,800
+CT Scan,1000
+DR Scan,1000
+Blood Bank,1000
+PAT Scan,1000
