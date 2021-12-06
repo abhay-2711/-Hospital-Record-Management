@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "../-Hospital-Record-Management"
+		}
+	],
+	"settings": {
+		"java.project.sourcePaths": [
+			"src"
+		],
+		"java.project.outputPath": "bin",
+		"java.project.referencedLibraries": [
+			"lib/**/*.jar",
+			"c:\\Program Files (x86)\\MySQL\\Connector J 8.0\\mysql-connector-java-8.0.27.jar",
+			"/Users/hiteshmalla/Desktop/mysql-connector-java-5.1.12/mysql-connector-java-5.1.12-bin.jar"
+		]
+	}
+}
